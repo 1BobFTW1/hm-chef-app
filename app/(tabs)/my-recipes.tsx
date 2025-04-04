@@ -1,12 +1,35 @@
-import { StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet } from 'react-native';
+import RecipeCard from '@/components/RecipeCard';
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+const dummyRecipes = [
+  {
+    id: '1',
+    name: 'Spaghetti Bolognese',
+    description: 'A classic Italian dish with tomato and meat sauce.',
+    imageUri: 'https://www.themealdb.com/images/media/meals/sutysw1468247559.jpg',
+  },
+  {
+    id: '2',
+    name: 'Sushi',
+    description: 'Delicious fresh sushi rolls with fish and rice.',
+    imageUri: 'https://www.themealdb.com/images/media/meals/g046bb1663960946.jpg',
+  },
+];
 
-export default function MyRecipeScreen() {
+export default function MyRecipesScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>My Recipes</Text>
+      <FlatList
+        data={dummyRecipes}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <RecipeCard
+            title={item.name}
+            description={item.description}
+            imageUri={item.imageUri}
+          />
+        )}
+      />
     </View>
   );
 }
@@ -14,16 +37,6 @@ export default function MyRecipeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
+    padding: 16,
   },
 });
