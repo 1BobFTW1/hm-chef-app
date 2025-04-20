@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { RecipeContext } from '@/components/RecipeContext';
 
 export default function NewRecipeScreen() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [imageUri, setImageUri] = useState<string | null>(null);
+  const { addRecipe } = useContext(RecipeContext);
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
@@ -19,7 +21,8 @@ export default function NewRecipeScreen() {
   };
 
   const saveRecipe = () => {
-    console.log('Recipe saved:', { name, description, imageUri });
+    if (!name || !description || !imageUri) return;
+    addRecipe({ id: Date.now().toString(), name, description, imageUri });
     setName('');
     setDescription('');
     setImageUri(null);
