@@ -1,26 +1,14 @@
+import React, { useContext } from 'react';
 import { View, FlatList, StyleSheet } from 'react-native';
 import RecipeCard from '@/components/RecipeCard';
-
-const dummyRecipes = [
-  {
-    id: '1',
-    name: 'Spaghetti Bolognese',
-    description: 'A classic Italian dish with tomato and meat sauce.',
-    imageUri: 'https://www.themealdb.com/images/media/meals/sutysw1468247559.jpg',
-  },
-  {
-    id: '2',
-    name: 'Sushi',
-    description: 'Delicious fresh sushi rolls with fish and rice.',
-    imageUri: 'https://www.themealdb.com/images/media/meals/g046bb1663960946.jpg',
-  },
-];
+import { RecipeContext } from '@/components/RecipeContext';
 
 export default function MyRecipesScreen() {
+  const { recipes } = useContext(RecipeContext);
   return (
     <View style={styles.container}>
       <FlatList
-        data={dummyRecipes}
+        data={recipes}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <RecipeCard
