@@ -2,9 +2,10 @@ import { useState, useContext } from 'react';
 import {
   View,
   TextInput,
-  Button,
+  TouchableOpacity,
   FlatList,
   StyleSheet,
+  Text,
 } from 'react-native';
 import RecipeCard from '@/components/RecipeCard';
 import { RecipeContext } from '@/components/RecipeContext';
@@ -38,10 +39,13 @@ export default function SearchScreen() {
         value={query}
         onChangeText={setQuery}
         style={styles.input}
+        onSubmitEditing={search}
+        returnKeyType="search"
       />
-      <Button title="Search" onPress={search} color="#E7615C" />
 
       <FlatList
+        style={styles.recipeCard}
+        contentContainerStyle={styles.listContent}
         data={results}
         keyExtractor={(item) => item.idMeal}
         renderItem={({ item }) => (
@@ -55,21 +59,48 @@ export default function SearchScreen() {
           />
         )}
       />
+      <TouchableOpacity style={styles.floatingButton} onPress={search}>
+        <Text style={styles.buttonText}>Search</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 16,
     flex: 1,
+  },
+  recipeCard: {
+    padding: 16,
+  },
+  listContent: {
+    paddingBottom: 80,
   },
   input: {
     borderColor: '#ccc',
+    marginLeft: 16,
+    marginRight: 16,
     borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
+    borderRadius: 8,
+    padding: 16,
+    fontSize: 16,
+    marginTop: 16,
+    marginBottom: 16,
     backgroundColor: 'white',
+  },
+  floatingButton: {
+    position: 'absolute',
+    bottom: 16,
+    left: 16,
+    right: 16,
+    backgroundColor: '#E7615C',
+    borderRadius: 50,
+    paddingVertical: 12,
+    alignItems: 'center',
+  },  
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });

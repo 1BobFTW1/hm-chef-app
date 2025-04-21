@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Image } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, Pressable } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { RecipeContext } from '@/components/RecipeContext';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function NewRecipeScreen() {
   const [name, setName] = useState('');
@@ -30,55 +31,97 @@ export default function NewRecipeScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Recipe Name:</Text>
       <TextInput
         style={styles.input}
         value={name}
         onChangeText={setName}
-        placeholder="Enter recipe name"
+        placeholder="Recipe name"
       />
 
-      <Text style={styles.label}>Description:</Text>
       <TextInput
         style={[styles.input, styles.textArea]}
         value={description}
         onChangeText={setDescription}
-        placeholder="Enter description"
+        placeholder="Description"
         multiline
       />
 
-      <Button title="Choose Image" onPress={pickImage} />
-      {imageUri && <Image source={{ uri: imageUri }} style={styles.image} />}
+      <Pressable style={styles.imagePickerButton} onPress={pickImage}>
+        {imageUri ? (
+          <Image source={{ uri: imageUri }} style={styles.image} />
+        ) : (
+          <View style={styles.imagePlaceholder}>
+            <FontAwesome name="camera" size={40} color="#DDD" />
+            <Text style={styles.imagePlaceholderText}>Tap to select an image</Text>
+          </View>
+        )}
+      </Pressable>
 
-      <Button title="Save Recipe" onPress={saveRecipe} color="#E7615C" />
+      <TouchableOpacity style={styles.floatingButton} onPress={saveRecipe}>
+        <Text style={styles.buttonText}>Save Recipe</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
     flex: 1,
   },
-  label: {
-    fontWeight: 'bold',
-    marginTop: 10,
-  },
   input: {
-    borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginTop: 5,
+    marginLeft: 16,
+    marginRight: 16,
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 16,
+    fontSize: 16,
+    marginTop: 16,
     backgroundColor: 'white',
   },
   textArea: {   
-    height: 80,
+    height: 120,
+    textAlignVertical: 'top',
+  },
+  imagePickerButton: {
+    marginTop: 16,
+    marginLeft: 16,
+    marginRight: 16,
+    borderRadius: 8,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    backgroundColor: '#f9f9f9',
   },
   image: {
     width: '100%',
     height: 200,
+    borderRadius: 8,
+  },
+  imagePlaceholder: {
+    height: 200,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f9f9f9',
+  },
+  imagePlaceholderText: {
     marginTop: 10,
-    borderRadius: 5,
+    fontSize: 16,
+    color: '#999',
+  },
+  floatingButton: {
+    position: 'absolute',
+    bottom: 16,
+    left: 16,
+    right: 16,
+    backgroundColor: '#E7615C',
+    borderRadius: 50,
+    paddingVertical: 12,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
 });
