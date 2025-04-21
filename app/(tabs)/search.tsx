@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import {
   View,
   TextInput,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import RecipeCard from '@/components/RecipeCard';
+import { RecipeContext } from '@/components/RecipeContext';
 
 interface Recipe {
   idMeal: string;
@@ -18,6 +19,7 @@ interface Recipe {
 export default function SearchScreen() {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<Recipe[]>([]);
+  const { likeRecipe } = useContext(RecipeContext);
 
   const search = async () => {
     if (!query) return;
@@ -48,6 +50,8 @@ export default function SearchScreen() {
             description={item.strCategory}
             imageUri={item.strMealThumb}
             expandableImage
+            showLikeButton
+            onLike={() => likeRecipe(item)}
           />
         )}
       />

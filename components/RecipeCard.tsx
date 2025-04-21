@@ -1,23 +1,35 @@
 import { useState } from 'react';
 import { View, Text, Image, StyleSheet, Pressable, Modal, TouchableOpacity } from 'react-native';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 interface RecipeCardProps {
   title: string;
   description: string;
   imageUri: string;
   expandableImage?: boolean;
+  onLike?: () => void;
+  showLikeButton?: boolean;
 }
 
 export default function RecipeCard({
   title,
   description,
   imageUri,
-  expandableImage = false,
+  expandableImage = true,
+  onLike,
+  showLikeButton = false,
 }: RecipeCardProps) {
   const [modalVisible, setModalVisible] = useState(false);
+  const [liked, setLiked] = useState(false);
 
   const handleToggle = () => {
     if (expandableImage) setModalVisible(true);
+  };
+
+  // Handles like button press
+  const handleLike = () => {
+    setLiked(true);
+    onLike?.();
   };
 
   return (
@@ -26,7 +38,14 @@ export default function RecipeCard({
         <Image source={{ uri: imageUri }} style={styles.image} />
       </Pressable>
       <View style={styles.textContainer}>
-        <Text style={styles.title}>{title}</Text>
+        <View style={styles.titleRow}>
+          <Text style={styles.title}>{title}</Text>
+          {showLikeButton && (
+            <TouchableOpacity onPress={handleLike} style={styles.likeButton}>            
+              <FontAwesome name={liked ? 'heart' : 'heart-o'} size={20} color="#E7615C" />
+            </TouchableOpacity>
+          )}
+        </View>
         {description ? (
           <Text style={styles.description}>{description}</Text>
         ) : null}
@@ -67,10 +86,19 @@ const styles = StyleSheet.create({
   textContainer: {
     padding: 12,
   },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 4,
+    flex: 1,
+  },
+  likeButton: {
+    padding: 5,
   },
   description: {
     fontSize: 14,
