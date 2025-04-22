@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, Image, StyleSheet, Pressable, Modal, TouchableOpacity } from 'react-native';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 interface RecipeCardProps {
   title: string;
@@ -59,7 +60,7 @@ export default function RecipeCard({
               style={styles.closeButton}
               onPress={() => setModalVisible(false)}
             >
-              <Text style={styles.closeText}>✕</Text>
+              <MaterialCommunityIcons name="close" size={24} color="white" />
             </TouchableOpacity>
           </View>
         </Modal>
@@ -120,7 +121,7 @@ const styles = StyleSheet.create({
     top: 40,
     right: 20,
     backgroundColor: 'rgba(255,255,255,0.6)',
-    borderRadius: 20,
+    borderRadius: 30,
     padding: 8,
   },
   closeText: {
