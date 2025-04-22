@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity, Pressable } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { RecipeContext } from '@/components/RecipeContext';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -46,7 +46,7 @@ export default function NewRecipeScreen() {
         multiline
       />
 
-      <Pressable style={styles.imagePickerButton} onPress={pickImage}>
+      <TouchableOpacity style={styles.imagePickerButton} onPress={pickImage}>
         {imageUri ? (
           <Image source={{ uri: imageUri }} style={styles.image} />
         ) : (
@@ -55,7 +55,7 @@ export default function NewRecipeScreen() {
             <Text style={styles.imagePlaceholderText}>Tap to select an image</Text>
           </View>
         )}
-      </Pressable>
+      </TouchableOpacity>
 
       <TouchableOpacity style={styles.floatingButton} onPress={saveRecipe}>
         <Text style={styles.buttonText}>Save Recipe</Text>
